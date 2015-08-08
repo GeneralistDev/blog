@@ -7,6 +7,16 @@
 // use this if you want to recursively match all subfolders:
 // 'test/spec/**/*.js'
 
+var webPort = 9000;
+if (process.env.PORT != null) {
+  webPort = process.env.PORT;
+}
+
+var hostname = 'localhost';
+if (process.env.HOSTNAME != null) {
+  hostname = process.env.HOSTNAME;
+}
+
 module.exports = function (grunt) {
 
   // Time how long tasks take. Can help when optimizing build times
@@ -70,9 +80,9 @@ module.exports = function (grunt) {
     // The actual grunt server settings
     connect: {
       options: {
-        port: 9000,
+        port: webPort,
         // Change this to '0.0.0.0' to access the server from outside.
-        hostname: 'localhost',
+        hostname: hostname,
         livereload: 35729
       },
       livereload: {
@@ -112,7 +122,7 @@ module.exports = function (grunt) {
       },
       dist: {
         options: {
-          open: true,
+          open: false,
           base: '<%= yeoman.dist %>'
         }
       }
@@ -288,27 +298,27 @@ module.exports = function (grunt) {
     // By default, your `index.html`'s <!-- Usemin block --> will take care of
     // minification. These next options are pre-configured if you do not wish
     // to use the Usemin blocks.
-    // cssmin: {
-    //   dist: {
-    //     files: {
-    //       '<%= yeoman.dist %>/styles/main.css': [
-    //         '.tmp/styles/{,*/}*.css'
-    //       ]
-    //     }
-    //   }
-    // },
-    // uglify: {
-    //   dist: {
-    //     files: {
-    //       '<%= yeoman.dist %>/scripts/scripts.js': [
-    //         '<%= yeoman.dist %>/scripts/scripts.js'
-    //       ]
-    //     }
-    //   }
-    // },
-    // concat: {
-    //   dist: {}
-    // },
+    cssmin: {
+      dist: {
+        files: {
+          '<%= yeoman.dist %>/styles/main.css': [
+            '.tmp/styles/{,*/}*.css'
+          ]
+        }
+      }
+    },
+    uglify: {
+      dist: {
+        files: {
+          '<%= yeoman.dist %>/scripts/scripts.js': [
+            '<%= yeoman.dist %>/scripts/scripts.js'
+          ]
+        }
+      }
+    },
+    concat: {
+      dist: {}
+    },
 
     imagemin: {
       dist: {
@@ -395,7 +405,9 @@ module.exports = function (grunt) {
             '.htaccess',
             '*.html',
             'images/{,*/}*.{webp}',
-            'styles/fonts/{,*/}*.*'
+            'styles/fonts/{,*/}*.*',
+            'package.json',
+            'server.js'
           ]
         }, {
           expand: true,

@@ -1,9 +1,44 @@
 sudo: false
 language: node_js
 node_js:
-  - 'iojs'
-  - '0.12'
-  - '0.10'
+- '0.12'
 before_script:
-  - 'npm install -g bower grunt-cli'
-  - 'bower install'
+- gem install dpl
+- gem install compass
+- npm install -g bower grunt-cli
+- bower install
+script:
+- grunt build
+after_success:
+- cd dist
+- echo $TRAVIS_BUILD_NUMBER.package.zip
+- zip -r $TRAVIS_BUILD_NUMBER.package.zip . > /dev/null
+- ls
+- pwd
+before_deploy:
+- mkdir -p dpl_cd_upload
+- ls
+- pwd
+- FILENAME=$TRAVIS_BUILD_NUMBER.package.zip
+- cp $FILENAME dpl_cd_upload/
+deploy:
+- provider: elasticbeanstalk
+  access-key-id: AKIAJ35YIGD6WQVEUV6A
+  secret-access-key:
+    secure: lfOceF7BHYukrpU1QmT/UfHgdpTTloez313AzAHw4wJDGtyQpZK/a94IYgi5wu5c9+XlPXBKap2XTEtc0uky6nDsL3jwm4K2MdnF1LsdfgyDHU7sGRBt/ep9zkuvsYMra84Jp9GkSp8WVJijr0M4ZKmPoV9/U+ydh285QXDEMwIWY+nyD1Gl3hTAQTKT+mO3t64rREf+iKsgu8Fvcxpu2TjonsRfjTa3A3c5HueYcWnclG41cnVmSy//6q1DP1ApYypqBaRsFcfweB2lXJ3Kk0lRc0aLV+NGJYMeGFJlXopKp/zhVmvS0p5A3dIMNE6ClPNGlU3GnGEhJjU9v9UkkQauHVTY9QAxOhNDNVtMoe2BnbU4DdK9wqzbHeTTD/TmGPhKBHAIVe7GMJ3chf/ai1X9uCD6ifLxtAVpKr2IT4IFM9U3cx5U5SHyVhbqZ6B6ZkW863ER1qaiWtFWD07NhDxeXm21F1paWYEAtOeF8BlYjnhfhrlaQhed7CpJAmaYsH/CnITYHJ6Uk7TOBWlMl418thTRq+LTFqwATXESlnF5vZJBLneQh+a+nmMUzP+uGOALRSVaX6MWN8p89ZtgFJf2KYqGZkKbwfWM+vtkx5IJgizGiQ5DSyyjSoVwDV10O0CyBl2PZO1pd5wSK/XTTonRajlP+W+Dsu6mTX0Nvns=
+  bucket_name: blog-deployments
+  bucket_path: 'releases'
+  zip-file: 'dpl_cd_upload/$TRAVIS_BUILD_NUMBER.package.zip'
+  app: Blog
+  env: blog
+  skip_cleanup: true
+  on:
+    repo: rlgod/blog
+    branch: release
+  region: ap-southeast-2
+branches:
+  only:
+  - release
+notifications:
+  slack:
+    secure: vDYKi5LiLTV8ohu9sJKdeSUqaGSgn3R6xRuFo2xQCYwkEUHlFC618zLjmgFEYaI628UWYLzBPMt4NkRm2veKyMeIkgIVvNmJdX6pxVLCvC4x/h1GIiwQUciKdPmOjeeq1biFbdKMHVbsIM3qNLqcruepICwSmiPVG/UD8DMhkJ0rfC86gxuPkD5eOTnG1t3Pcd9vECRNyUHnWQZ8QOP6pMxsKoHmz7M1FC3poN/z0XvY7tPfL71K82nTmULLJEKOv55gDC84IbH/xDxZvG4cO2jCA3T8RJcp9Q39AUDyaggtSHJBZXnZ4Ve+SqyRT+4ZueJFDfroLuSyD2gEQnZdzIPxn/VZTBFzLllZYWg4dybUUdFZnDWXXZ5LgMYj8Av0Fov33ahRYDc06T2hdQNHsxWsreTyNc9EbcyILH5t65D/ypYSbOKxx+F1R79ooMQpeawESrZmHtX6qmIO6HWAqxuvr4D8thG9pbpWFGShRTuAaucZDw9sletQPTW+RszMNmeX7XbgDf9+ghSN+sIy92wsPkoOkA7oLpgUFOuLPnyr4WQvEoFNNUimsA37No5DbQM/lMF547d0/fo4iOMDhywd0e2BBz7LfWQ3wu69GQnBYQHv/wT/I+PCjkDv/auHkGvZRllCCnPNp8wVV14OS1+9JsUtJ/8eL5uDPwiDgXs=
