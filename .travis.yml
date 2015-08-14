@@ -13,12 +13,8 @@ after_success:
 - cd dist
 - echo $TRAVIS_BUILD_NUMBER.package.zip
 - zip -r $TRAVIS_BUILD_NUMBER.package.zip . > /dev/null
-- ls
-- pwd
 before_deploy:
 - mkdir -p dpl_cd_upload
-- ls
-- pwd
 - FILENAME=$TRAVIS_BUILD_NUMBER.package.zip
 - cp $FILENAME dpl_cd_upload/
 deploy:
