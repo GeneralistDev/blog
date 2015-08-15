@@ -8,7 +8,7 @@
  * Controller of the blogApp
  */
 angular.module('blogApp')
-  .controller('MainCtrl', function () {
+  .controller('FeedCtrl', function () {
     this.awesomeThings = [
       'HTML5 Boilerplate',
       'AngularJS',
