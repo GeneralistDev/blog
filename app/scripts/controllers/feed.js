@@ -2,9 +2,9 @@
 
 /**
  * @ngdoc function
- * @name blogApp.controller:MainCtrl
+ * @name blogApp.controller:FeedCtrl
  * @description
- * # MainCtrl
+ * # FeedCtrl
  * Controller of the blogApp
  */
 angular.module('blogApp')
@@ -14,4 +14,8 @@ angular.module('blogApp')
       'AngularJS',
       'Karma'
     ];
+
+    this.posts = [
+      "posts/2015-08-16-1032.md"
+    ]
   });

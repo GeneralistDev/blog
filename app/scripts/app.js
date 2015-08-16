@@ -15,7 +15,8 @@ angular
     'ngResource',
     'ngRoute',
     'ngSanitize',
-    'ngTouch'
+    'ngTouch',
+    'ng-showdown'
   ])
   .config(function ($routeProvider) {
     $routeProvider
@@ -28,6 +29,11 @@ angular
         templateUrl: 'views/about.html',
         controller: 'AboutCtrl',
         controllerAs: 'about'
+      })
+      .when('/post', {
+        templateUrl: 'views/post.html',
+        controller: 'PostCtrl',
+        controllerAs: 'post'
       })
       .otherwise({
         redirectTo: '/'
